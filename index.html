@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bowl · Food cost for restaurants</title>
+<meta name="description" content="Bowl reads your supplier invoices, tracks every price, and checks purchases and labor against your sales, week by week. Invite only.">
+<meta name="theme-color" content="#157A5E">
+<meta property="og:title" content="Bowl · Food cost for restaurants">
+<meta property="og:description" content="Snap your supplier invoices. Bowl tracks every price and checks purchases and labor against your sales. Invite only.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://get-bowl.com/">
+<link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/Fraunces-600.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+@font-face { font-family: "Fraunces"; font-weight: 600; font-display: swap; src: url("/fonts/Fraunces-600.ttf") format("truetype"); }
+:root {
+  --ground: #FBFAF7; --card: #FFFFFF; --card-border: #EFEDE6; --hairline: #F2F0E9;
+  --ink: #1A1915; --text2: #4A4942; --muted: #7A7970;
+  --brand: #157A5E; --brand-ink: #FBFAF7; --green-tint: #E6F2EC; --green-ink: #10513F;
+  --coral: #B4472C; --coral-tint: #FBEDE8;
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #141411; --card: #1D1D19; --card-border: #2B2A25; --hairline: #262520;
+    --ink: #EDEBE4; --text2: #C4C2B9; --muted: #9C9A90;
+    --brand: #3FA882; --brand-ink: #0F1A15; --green-tint: #17302A; --green-ink: #9ED9C1;
+    --coral: #E58A70; --coral-tint: #35211B;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.55 var(--body); }
+a { color: var(--brand); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+/* Top bar */
+.top { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+.logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 600 24px/1 var(--display); }
+.mark { width: 36px; height: 36px; border-radius: 10px; background: #157A5E; display: grid; place-items: center; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--green-ink); background: var(--green-tint); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+
+/* Hero */
+.hero { padding: 28px 0 40px; display: grid; gap: 36px; }
+h1 { font: 600 clamp(36px, 9vw, 60px)/1.05 var(--display); letter-spacing: -0.01em; margin: 16px 0 16px; }
+.lede { font-size: 18px; color: var(--text2); margin: 0 0 28px; max-width: 34em; }
+.cta { display: flex; flex-direction: column; gap: 12px; align-items: stretch; }
+.btn { display: inline-flex; justify-content: center; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 14px; background: var(--brand); color: var(--brand-ink); font-weight: 600; font-size: 17px; text-decoration: none; }
+.btn:hover { filter: brightness(1.06); }
+.btn:focus-visible, a:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+.cta-note { font-size: 14px; color: var(--muted); margin: 0; text-align: center; }
+
+/* Example card */
+.phone { background: var(--card); border: 1px solid var(--card-border); border-radius: 24px; padding: 20px; box-shadow: 0 20px 50px -30px rgba(26,25,21,.35); max-width: 380px; width: 100%; justify-self: center; }
+.phone-label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 4px; }
+.phone-title { font: 600 22px/1.2 var(--display); margin: 0 0 16px; }
+.metric { padding: 14px 0; border-top: 1px solid var(--hairline); }
+.metric-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.metric-name { font-weight: 600; font-size: 15px; }
+.metric-val { font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; }
+.metric-val small { font-weight: 400; font-size: 13px; color: var(--muted); }
+.bar { height: 8px; border-radius: 999px; background: var(--hairline); margin-top: 8px; overflow: hidden; }
+.bar > span { display: block; height: 100%; border-radius: 999px; background: var(--brand); }
+.bar > span.over { background: var(--coral); }
+.metric-note { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.alert { margin-top: 12px; background: var(--coral-tint); color: var(--coral); border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 600; }
+.example { font-size: 12px; color: var(--muted); text-align: center; margin: 14px 0 0; }
+
+/* Features */
+.features { padding: 24px 0 8px; }
+h2 { font: 600 clamp(26px, 6vw, 36px)/1.15 var(--display); margin: 0 0 20px; }
+.grid { display: grid; gap: 14px; }
+.feature { background: var(--card); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; }
+.feature h3 { font-size: 17px; margin: 12px 0 6px; }
+.feature p { margin: 0; color: var(--text2); font-size: 15.5px; }
+.icon { width: 40px; height: 40px; border-radius: 12px; background: var(--green-tint); display: grid; place-items: center; color: var(--green-ink); }
+
+/* Closing */
+.closing { margin: 40px 0 0; padding: 32px 20px; border-radius: 24px; background: #157A5E; color: #FBFAF7; text-align: center; }
+.closing h2 { color: #FBFAF7; margin-bottom: 10px; }
+.closing p { margin: 0 auto 22px; max-width: 30em; color: #D8EDE4; }
+.closing .btn { background: #FBFAF7; color: #10513F; }
+
+footer { padding: 32px 0 calc(32px + env(safe-area-inset-bottom)); color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 10px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+footer a { color: var(--muted); }
+
+@media (min-width: 720px) {
+  .cta { flex-direction: row; align-items: center; }
+  .cta-note { text-align: left; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  footer { flex-direction: row; justify-content: space-between; }
+}
+@media (min-width: 960px) {
+  .hero { grid-template-columns: 1.15fr 1fr; align-items: center; padding: 56px 0 64px; }
+  .grid { grid-template-columns: repeat(4, 1fr); }
+  .closing { padding: 48px 32px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="/" aria-label="Bowl home">
+      <span class="mark" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="16.5" cy="17.6" r="4.3" fill="#EA6A4D"/><circle cx="31.5" cy="17.1" r="4.3" fill="#3F84C4"/><circle cx="24" cy="11.2" r="4.3" fill="#FBFAF7"/><path d="M5 22h38a19 19 0 0 1-38 0Z" fill="#FBFAF7"/></svg>
+      </span>
+      Bowl
+    </a>
+    <span class="pill">Invite only</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Know your food cost every week, not at month end.</h1>
+        <p class="lede">Snap your supplier invoices. Bowl reads them, tracks every price, and checks your purchases and labor against your sales, so you can see where each dollar goes while there’s still time to act.</p>
+        <div class="cta">
+          <a class="btn" href="mailto:support@get-bowl.com?subject=Bowl%20access%20request&amp;body=Restaurant%20name%3A%0ACity%3A%0APOS%20(e.g.%20Toast)%3A%0A">Request access</a>
+          <p class="cta-note">Invite only · we’ll get back to you by email</p>
+        </div>
+      </div>
+
+      <div class="phone" role="img" aria-label="Example of Bowl's weekly view: sales against forecast, purchases and labor as a percent of sales, and a price-change alert.">
+        <p class="phone-label">This week</p>
+        <p class="phone-title">Day 4 of 6 · on pace</p>
+        <div class="metric">
+          <div class="metric-row"><span class="metric-name">Sales</span><span class="metric-val">$9,840 <small>/ $14,200 goal</small></span></div>
+          <div class="bar"><span style="width:69%"></span></div>
+        </div>
+        <div class="metric">
+          <div class="metric-row"><span class="metric-name">Purchases</span><span class="metric-val">27.4% <small>/ 30%</small></span></div>
+          <div class="bar"><span style="width:91%"></span></div>
+          <div class="metric-note">$1,160 left to buy this week</div>
+        </div>
+        <div class="metric">
+          <div class="metric-row"><span class="metric-name">Labor</span><span class="metric-val">29.1% <small>/ 28%</small></span></div>
+          <div class="bar"><span class="over" style="width:100%"></span></div>
+        </div>
+        <div class="alert">Chicken thighs up 12% at one supplier</div>
+        <p class="example">Example figures</p>
+      </div>
+    </section>
+
+    <section class="features" aria-labelledby="how">
+      <h2 id="how">What Bowl does</h2>
+      <div class="grid">
+        <article class="feature">
+          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+          <h3>Snap an invoice</h3>
+          <p>Photo, PDF or a whole folder. Bowl reads the supplier, every line and the totals, and shows you anything it isn’t sure of.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <h3>Every price, tracked</h3>
+          <p>See when a supplier raises a price, who sells the same item for less, and what each dish really costs to plate.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+          <h3>A weekly budget</h3>
+          <p>Bowl forecasts your sales and turns your targets into a purchasing budget for the week, updated as the week happens.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Labor in real time</h3>
+          <p>Connect Toast and see labor against sales as shifts happen, with a heads-up before someone hits overtime.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="closing">
+      <h2>Bowl is invite only for now</h2>
+      <p>We’re onboarding a small group of restaurants. Tell us about yours and we’ll be in touch.</p>
+      <a class="btn" href="mailto:support@get-bowl.com?subject=Bowl%20access%20request&amp;body=Restaurant%20name%3A%0ACity%3A%0APOS%20(e.g.%20Toast)%3A%0A">Request access</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Elis Group LLC dba Bowl</span>
+    <nav aria-label="Legal">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="mailto:support@get-bowl.com">support@get-bowl.com</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>
