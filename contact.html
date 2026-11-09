@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- site:head -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#157A5E">
+<link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/Fraunces-600.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/fonts/Inter-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<!-- /site:head -->
+<title>Contact Bowl</title>
+<meta name="description" content="Book a demo of Bowl or ask us anything. We answer by email or WhatsApp.">
+<link rel="canonical" href="https://get-bowl.com/contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bowl">
+<meta property="og:title" content="Contact Bowl">
+<meta property="og:description" content="Book a demo of Bowl or ask us anything. We answer by email or WhatsApp.">
+<meta property="og:url" content="https://get-bowl.com/contact">
+<meta property="og:image" content="https://get-bowl.com/screens/3-sales.jpg">
+<meta property="og:image:width" content="603">
+<meta property="og:image:height" content="1311">
+<meta property="og:image:alt" content="The Bowl app's home screen: sales this week against the forecast, with the purchases and labor budgets (example restaurant)">
+<meta name="twitter:card" content="summary">
+</head>
+<body>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Bowl home"><i aria-hidden="true"></i>Bowl</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#features">Features</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/contact" aria-current="page">Contact</a>
+    </nav>
+  </div>
+</header>
+<!-- /site:header -->
+
+<main id="main">
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Contact</p>
+    <h1 style="margin-top:12px;font-size:clamp(40px,7vw,80px)">Let’s look at your numbers.</h1>
+    <p class="lead" style="margin-top:16px">Book a 20-minute demo, or just ask a question. A real person from Bowl gets back to you within 1 business day.</p>
+
+    <div class="contact-grid">
+      <form id="cf" class="form" novalidate aria-describedby="formNote">
+        <div class="field"><label for="name">Your name <span aria-hidden="true">*</span></label><input id="name" name="name" maxlength="100" autocomplete="name" required aria-required="true"><span class="err" id="name-err" hidden></span></div>
+        <div class="field"><label for="restaurant">Restaurant <span aria-hidden="true">*</span></label><input id="restaurant" name="restaurant" maxlength="150" autocomplete="organization" required aria-required="true"><span class="err" id="restaurant-err" hidden></span></div>
+        <div class="field"><label for="email">Email <span aria-hidden="true">*</span></label><input id="email" name="email" maxlength="254" type="email" autocomplete="email" required aria-required="true"><span class="err" id="email-err" hidden></span></div>
+        <div class="field"><label for="phone">Phone or WhatsApp <span aria-hidden="true">*</span></label><input id="phone" name="phone" maxlength="40" type="tel" autocomplete="tel" inputmode="tel" required aria-required="true"><span class="err" id="phone-err" hidden></span></div>
+        <div class="field full"><label for="message">Message <span class="hint">(optional)</span></label><textarea id="message" name="message" maxlength="5000" placeholder="What would you like to see, or what’s hurting most right now?"></textarea><span class="err" id="message-err" hidden></span></div>
+        <div class="hp" aria-hidden="true"><label for="company_site">Leave this empty</label><input type="text" name="company_site" id="company_site" tabindex="-1" autocomplete="off"></div>
+        <div class="field full"><div class="consent"><input type="checkbox" id="consent" name="consent" required aria-required="true"><label for="consent" style="font-weight:400">I agree that Bowl may contact me about my request, as described in the <a href="/privacy">Privacy Policy</a>.</label></div><span class="err" id="consent-err" hidden></span></div>
+        <div class="field full"><button class="btn btn-primary" type="submit" id="send" style="width:100%">Send</button><p class="hint" id="formNote">* Required. We never share your details.</p></div>
+        <div class="field full" id="status" role="status" aria-live="polite"></div>
+      </form>
+
+      <aside class="side" aria-labelledby="h-other">
+        <h2 id="h-other" class="sr">Other ways to reach us</h2>
+        <div class="card"><h3>Email</h3><p><a href="mailto:info@get-bowl.com">info@get-bowl.com</a></p></div>
+        <div class="card"><h3>WhatsApp</h3><p>Already a customer? Message your Bowl contact directly. New here? Leave your number in the form and we’ll message you.</p></div>
+        <div class="card"><h3>Mail</h3><p>Elis Group LLC dba Bowl<br>355 NE 194th Ln<br>Miami, FL 33179</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- site:footer -->
+<footer>
+  <div class="wrap">
+    <div class="stack" style="gap:8px">
+      <a class="logo" href="/" style="font-size:24px"><i aria-hidden="true"></i>Bowl</a>
+      <span>© 2026 Elis Group LLC dba Bowl · 355 NE 194th Ln, Miami, FL 33179</span>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/contact" aria-current="page">Contact</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/accessibility">Accessibility</a>
+    </nav>
+  </div>
+</footer>
+<!-- /site:footer -->
+
+<script>
+(function(){
+// Supabase Edge Function "contact" (supabase/functions/contact). It checks
+// everything again; this only saves a round trip.
+var ENDPOINT='https://yxjzvprrfurrxubdpgoe.supabase.co/functions/v1/contact';
+function $(id){return document.getElementById(id)}
+var f=$('cf'),st=$('status'),btn=$('send');
+var LABEL={name:'Your name',restaurant:'Restaurant',email:'Email',phone:'Phone or WhatsApp',consent:'Consent'};
+function err(id,msg){var e=$(id+'-err'),i=$(id);e.hidden=!msg;e.textContent=msg||'';i.setAttribute('aria-invalid',msg?'true':'false');if(msg)i.setAttribute('aria-describedby',id+'-err');else i.removeAttribute('aria-describedby');return !msg}
+function say(cls,text){st.className=cls;st.textContent=text}
+f.addEventListener('submit',function(ev){ev.preventDefault();say('','');
+  var checks={
+    name:$('name').value.trim()?'':'Please enter your name.',
+    restaurant:$('restaurant').value.trim()?'':'Please enter your restaurant\u2019s name.',
+    email:/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim())?'':'Please enter a valid email address, like name@restaurant.com.',
+    phone:/^[0-9+()\-. ]{7,40}$/.test($('phone').value.trim())&&$('phone').value.replace(/\D/g,'').length>=7?'':($('phone').value.trim()?'Please enter a phone number, like (305) 555-0100.':'Please enter a phone or WhatsApp number.'),
+    consent:$('consent').checked?'':'Please check this box so we can contact you.'
+  };
+  var bad=Object.keys(checks).filter(function(k){return !err(k,checks[k])});
+  if(bad.length){
+    say('status bad','Please check '+(bad.length===1?'this field':'these fields')+': '+bad.map(function(k){return LABEL[k]}).join(', ')+'.');
+    $(bad[0]).focus();return}
+  var data={};new FormData(f).forEach(function(v,k){data[k]=typeof v==='string'?v.trim():v});data.consent=true;
+  btn.disabled=true;btn.textContent='Sending\u2026';
+  fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+  .then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {ok:r.ok,status:r.status,j:j}})})
+  .then(function(res){
+    if(res.ok){say('status ok','Thanks, '+data.name.split(' ')[0]+'. We\u2019ll get back to you within 1 business day.'+(res.j.confirmation?' A confirmation is on its way to '+data.email+'.':''));f.reset();return}
+    if(res.status===400&&res.j.fields){Object.keys(res.j.fields).forEach(function(k){if($(k+'-err'))err(k,res.j.fields[k])})}
+    say('status bad',(res.j&&res.j.error)||'We couldn\u2019t send your message. Please email us at info@get-bowl.com and we\u2019ll answer from there.');
+  })
+  .catch(function(){say('status bad','We couldn\u2019t send your message. Please email us at info@get-bowl.com and we\u2019ll answer from there.')})
+  .then(function(){btn.disabled=false;btn.textContent='Send';st.setAttribute('tabindex','-1');st.focus()});
+});
+})();
+</script>
+</body>
+</html>

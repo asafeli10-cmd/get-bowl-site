@@ -1,192 +1,363 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- site:head -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bowl · Food cost for restaurants</title>
-<meta name="description" content="Bowl reads your supplier invoices, tracks every price, and checks purchases and labor against your sales, week by week. Invite only.">
 <meta name="theme-color" content="#157A5E">
-<meta property="og:title" content="Bowl · Food cost for restaurants">
-<meta property="og:description" content="Snap your supplier invoices. Bowl tracks every price and checks purchases and labor against your sales. Invite only.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://get-bowl.com/">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/Fraunces-600.ttf" as="font" type="font/ttf" crossorigin>
-<style>
-@font-face { font-family: "Fraunces"; font-weight: 600; font-display: swap; src: url("/fonts/Fraunces-600.ttf") format("truetype"); }
-:root {
-  --ground: #FBFAF7; --card: #FFFFFF; --card-border: #EFEDE6; --hairline: #F2F0E9;
-  --ink: #1A1915; --text2: #4A4942; --muted: #7A7970;
-  --brand: #157A5E; --brand-ink: #FBFAF7; --green-tint: #E6F2EC; --green-ink: #10513F;
-  --coral: #B4472C; --coral-tint: #FBEDE8;
-  --display: "Fraunces", Georgia, "Times New Roman", serif;
-  --body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ground: #141411; --card: #1D1D19; --card-border: #2B2A25; --hairline: #262520;
-    --ink: #EDEBE4; --text2: #C4C2B9; --muted: #9C9A90;
-    --brand: #3FA882; --brand-ink: #0F1A15; --green-tint: #17302A; --green-ink: #9ED9C1;
-    --coral: #E58A70; --coral-tint: #35211B;
-  }
-}
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.55 var(--body); }
-a { color: var(--brand); }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
-
-/* Top bar */
-.top { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
-.logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 600 24px/1 var(--display); }
-.mark { width: 36px; height: 36px; border-radius: 10px; background: #157A5E; display: grid; place-items: center; }
-.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--green-ink); background: var(--green-tint); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
-.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
-
-/* Hero */
-.hero { padding: 28px 0 40px; display: grid; gap: 36px; }
-h1 { font: 600 clamp(36px, 9vw, 60px)/1.05 var(--display); letter-spacing: -0.01em; margin: 16px 0 16px; }
-.lede { font-size: 18px; color: var(--text2); margin: 0 0 28px; max-width: 34em; }
-.cta { display: flex; flex-direction: column; gap: 12px; align-items: stretch; }
-.btn { display: inline-flex; justify-content: center; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 14px; background: var(--brand); color: var(--brand-ink); font-weight: 600; font-size: 17px; text-decoration: none; }
-.btn:hover { filter: brightness(1.06); }
-.btn:focus-visible, a:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
-.cta-note { font-size: 14px; color: var(--muted); margin: 0; text-align: center; }
-
-/* Example card */
-.phone { background: var(--card); border: 1px solid var(--card-border); border-radius: 24px; padding: 20px; box-shadow: 0 20px 50px -30px rgba(26,25,21,.35); max-width: 380px; width: 100%; justify-self: center; }
-.phone-label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 4px; }
-.phone-title { font: 600 22px/1.2 var(--display); margin: 0 0 16px; }
-.metric { padding: 14px 0; border-top: 1px solid var(--hairline); }
-.metric-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.metric-name { font-weight: 600; font-size: 15px; }
-.metric-val { font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; }
-.metric-val small { font-weight: 400; font-size: 13px; color: var(--muted); }
-.bar { height: 8px; border-radius: 999px; background: var(--hairline); margin-top: 8px; overflow: hidden; }
-.bar > span { display: block; height: 100%; border-radius: 999px; background: var(--brand); }
-.bar > span.over { background: var(--coral); }
-.metric-note { font-size: 13px; color: var(--muted); margin-top: 6px; }
-.alert { margin-top: 12px; background: var(--coral-tint); color: var(--coral); border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 600; }
-.example { font-size: 12px; color: var(--muted); text-align: center; margin: 14px 0 0; }
-
-/* Features */
-.features { padding: 24px 0 8px; }
-h2 { font: 600 clamp(26px, 6vw, 36px)/1.15 var(--display); margin: 0 0 20px; }
-.grid { display: grid; gap: 14px; }
-.feature { background: var(--card); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; }
-.feature h3 { font-size: 17px; margin: 12px 0 6px; }
-.feature p { margin: 0; color: var(--text2); font-size: 15.5px; }
-.icon { width: 40px; height: 40px; border-radius: 12px; background: var(--green-tint); display: grid; place-items: center; color: var(--green-ink); }
-
-/* Closing */
-.closing { margin: 40px 0 0; padding: 32px 20px; border-radius: 24px; background: #157A5E; color: #FBFAF7; text-align: center; }
-.closing h2 { color: #FBFAF7; margin-bottom: 10px; }
-.closing p { margin: 0 auto 22px; max-width: 30em; color: #D8EDE4; }
-.closing .btn { background: #FBFAF7; color: #10513F; }
-
-footer { padding: 32px 0 calc(32px + env(safe-area-inset-bottom)); color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 10px; }
-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-footer a { color: var(--muted); }
-
-@media (min-width: 720px) {
-  .cta { flex-direction: row; align-items: center; }
-  .cta-note { text-align: left; }
-  .grid { grid-template-columns: repeat(2, 1fr); }
-  footer { flex-direction: row; justify-content: space-between; }
-}
-@media (min-width: 960px) {
-  .hero { grid-template-columns: 1.15fr 1fr; align-items: center; padding: 56px 0 64px; }
-  .grid { grid-template-columns: repeat(4, 1fr); }
-  .closing { padding: 48px 32px; }
-}
-</style>
+<link rel="preload" href="/fonts/Inter-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<!-- /site:head -->
+<title>Bowl · Know your real profit, every day</title>
+<meta name="description" content="Bowl shows restaurant owners their real profit every day: food cost, labor and every fee, live from your POS, bank and invoices.">
+<link rel="canonical" href="https://get-bowl.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bowl">
+<meta property="og:title" content="Bowl · Know your real profit, every day">
+<meta property="og:description" content="Bowl shows restaurant owners their real profit every day: food cost, labor and every fee, live from your POS, bank and invoices.">
+<meta property="og:url" content="https://get-bowl.com/">
+<meta property="og:image" content="https://get-bowl.com/screens/3-sales.jpg">
+<meta property="og:image:width" content="603">
+<meta property="og:image:height" content="1311">
+<meta property="og:image:alt" content="The Bowl app's home screen: sales this week against the forecast, with the purchases and labor budgets (example restaurant)">
+<meta name="twitter:card" content="summary">
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <a class="logo" href="/" aria-label="Bowl home">
-      <span class="mark" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="16.5" cy="17.6" r="4.3" fill="#EA6A4D"/><circle cx="31.5" cy="17.1" r="4.3" fill="#3F84C4"/><circle cx="24" cy="11.2" r="4.3" fill="#FBFAF7"/><path d="M5 22h38a19 19 0 0 1-38 0Z" fill="#FBFAF7"/></svg>
-      </span>
-      Bowl
-    </a>
-    <span class="pill">Invite only</span>
-  </header>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Bowl home"><i aria-hidden="true"></i>Bowl</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#features">Features</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/contact">Contact</a>
+      <a class="btn btn-primary" href="/contact">Book a demo</a>
+    </nav>
+  </div>
+</header>
+<!-- /site:header -->
 
-  <main>
-    <section class="hero">
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="h-hero">
+  <div class="wrap">
+    <div class="stack">
+      <p class="eyebrow">For restaurant owners</p>
+      <h1 id="h-hero">Know your real profit. <em>Every day.</em></h1>
+      <p class="lead">Invoices, payroll, rent, card fees, delivery apps. Bowl pulls it all into one clear screen, so you see what you made yesterday, not 45 days from now.</p>
+      <div class="row" style="margin-top:8px">
+        <a class="btn btn-primary" href="/contact">Book a demo</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="hint">iPhone and Android. We set it up for you.</p>
+    </div>
+    <div class="stage" id="stage" role="img" aria-label="Animation: bills, payroll, rent and fees fall into a bowl, then Bowl sorts them into money in and money out.">
+      <div class="stage-in" id="stageIn">
+        <svg id="sBowl" width="440" height="170" viewBox="0 0 900 340" style="position:absolute;left:80px;top:300px;transition:opacity .8s,filter .8s" aria-hidden="true"><path d="M10 40 Q450 120 890 40 Q860 320 450 330 Q40 320 10 40Z" fill="#2A2822" stroke="#3E3B34" stroke-width="6"/><ellipse cx="450" cy="40" rx="440" ry="34" fill="none" stroke="#5A564C" stroke-width="6"/></svg>
+        <div class="cap" id="sCap1" style="top:36px">Invoices. Payroll. Rent. Fees.</div>
+        <div class="cap" id="sCap2" style="top:36px;opacity:0">Bowl sorts it all.</div>
+        <div class="lbl" id="sIn" style="left:40px;top:96px;opacity:0">MONEY IN</div>
+        <div class="lbl" id="sOut" style="left:250px;top:96px;opacity:0;color:#F2A58E">MONEY OUT</div>
+        <div class="cap" id="sLeft" style="top:440px;font-size:24px;color:#7FC8A9;opacity:0">What’s left = your real profit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="band" id="how" aria-labelledby="h-late">
+  <div class="wrap">
+    <p class="eyebrow">The problem</p>
+    <h2 id="h-late" style="margin-top:12px">The truth arrives a month too late.</h2>
+    <div class="tl">
+      <div><b>Day 1</b><p>You buy, pay suppliers and set the schedule.</p></div>
+      <div><b>Day 30</b><p>The month ends.</p></div>
+      <div><b>Day 45</b><p>Your P&amp;L arrives. Too late to fix.</p></div>
+    </div>
+    <p class="callout">With Bowl: every morning, on your phone.</p>
+  </div>
+</section>
+
+<!-- DONUT -->
+<section class="dark" aria-labelledby="h-points">
+  <div class="wrap">
+    <p class="eyebrow">Where every dollar goes</p>
+    <h2 id="h-points" style="margin-top:12px">Three points. Most of your profit.</h2>
+    <p class="lead" style="margin-top:16px">An example restaurant at $100K a month. Switch to “3 points over” and watch what a little drift in food and labor does.</p>
+    <div class="donut-grid">
       <div>
-        <h1>Know your food cost every week, not at month end.</h1>
-        <p class="lede">Snap your supplier invoices. Bowl reads them, tracks every price, and checks your purchases and labor against your sales, so you can see where each dollar goes while there’s still time to act.</p>
-        <div class="cta">
-          <a class="btn" href="mailto:support@get-bowl.com?subject=Bowl%20access%20request&amp;body=Restaurant%20name%3A%0ACity%3A%0APOS%20(e.g.%20Toast)%3A%0A">Request access</a>
-          <p class="cta-note">Invite only · we’ll get back to you by email</p>
+        <div class="donut">
+          <svg viewBox="0 0 660 660" aria-hidden="true"><g id="dG" transform="rotate(-90 330 330)"><circle cx="330" cy="330" r="250" fill="none" stroke="#2A2822" stroke-width="130"/></g></svg>
+          <div class="mid"><b id="dPct">10%</b><span id="dAmt">$10,000 profit a month</span></div>
+        </div>
+        <div style="text-align:center"><div class="toggle" role="group" aria-label="Scenario">
+          <button type="button" id="tHealthy" aria-pressed="true">Healthy</button>
+          <button type="button" id="tOver" aria-pressed="false">3 points over</button>
+        </div></div>
+      </div>
+      <div class="tablewrap">
+        <table class="legend" aria-describedby="dNote"><caption class="sr">Monthly costs for an example restaurant with $100,000 in sales</caption><thead class="sr-head"><tr><th scope="col">Cost</th><th scope="col">Share of sales</th><th scope="col">Per month</th></tr></thead><tbody id="dRows"></tbody></table>
+        <p id="dNote" style="margin-top:16px;color:var(--on-dark2)" aria-live="polite">Food and labor at 30% each leave about 10% profit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section aria-labelledby="h-connect">
+  <div class="wrap">
+    <p class="eyebrow" style="text-align:center">How Bowl knows your numbers</p>
+    <h2 id="h-connect" style="text-align:center;margin-top:12px">Everything flows into one Bowl.</h2>
+    <div class="bowl-stage" id="bStage" role="img" aria-label="Toast, Uber Eats, DoorDash, your bank, suppliers, payroll and bills drop into one bowl.">
+      <div class="bowl-in" id="bIn">
+        <svg width="620" height="250" viewBox="0 0 1000 400" style="position:absolute;left:100px;top:205px;transition:filter 1s" id="bBowl" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F8A6B"/><stop offset="1" stop-color="#0F5A45"/></linearGradient></defs><path d="M10 50 Q500 140 990 50 Q960 380 500 392 Q40 380 10 50Z" fill="url(#gr)"/><ellipse cx="500" cy="50" rx="490" ry="42" fill="#0B4636"/><ellipse cx="500" cy="50" rx="490" ry="42" fill="none" stroke="#7FC8A9" stroke-width="5"/></svg>
+      </div>
+    </div>
+    <div class="how-list">
+      <p><b>Your POS.</b> Toast sends sales, items and time entries every night, automatically.</p>
+      <p><b>Your bank.</b> Connect securely through Plaid to see cash, deposits and open bills.</p>
+      <p><b>Your suppliers.</b> Snap an invoice or forward the email. Any supplier.</p>
+      <p><b>Delivery apps.</b> Uber Eats, DoorDash and the rest, calculated from your own rates.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="band" id="features" aria-labelledby="h-feat">
+  <div class="wrap">
+    <h2 id="h-feat" class="sr">Features</h2>
+
+    <div class="feat rv">
+      <div class="stack">
+        <span class="pill">Live</span>
+        <h3 style="font-size:clamp(30px,4vw,48px)">No more fees you find out about too late.</h3>
+        <ul class="ticks">
+          <li>Credit card fees, from your processing rates</li>
+          <li>Uber Eats and DoorDash commissions, promos and ads</li>
+          <li>Rent, insurance, utilities and every fixed cost</li>
+          <li>Tap any slice to see the employee, the invoice or the order</li>
+        </ul>
+      </div>
+      <div class="shot"><img class="phone tilt-l" src="screens/2-money.jpg" alt="Bowl screen: where your money goes, each dollar of sales split into purchases, labor, rent, delivery and card fees" width="603" height="1311" loading="lazy"></div>
+    </div>
+
+    <div class="feat flip rv">
+      <div class="stack">
+        <span class="pill">No typing</span>
+        <h3 style="font-size:clamp(30px,4vw,48px)">Snap the invoice. Your food cost updates.</h3>
+        <p class="lead">Tomatoes $1 a pound today, $2 tomorrow? The moment the invoice comes in, every plate that uses them updates. You see what went up, and what got cheaper.</p>
+        <div class="price-card" aria-label="Example price change">
+          <div><span class="hint">Tomatoes, per lb</span><div class="big" id="tom">$1.00</div></div>
+          <div class="chg"><span>Tomatoes</span><span class="up">▲ +100%</span></div>
+          <div class="chg"><span>Lemons</span><span class="up">▲ +12%</span></div>
+          <div class="chg"><span>Chickpeas</span><span class="dn">▼ −8%</span></div>
+          <span class="hint">Example</span>
         </div>
       </div>
+      <div class="shot"><img class="phone small tilt-l" src="screens/5-invoices.jpg" alt="Bowl invoices screen grouped by supplier" width="603" height="1311" loading="lazy"><img class="phone small tilt-r" src="screens/7-ingredients.jpg" alt="Bowl ingredients screen with current prices" width="603" height="1311" loading="lazy"></div>
+    </div>
 
-      <div class="phone" role="img" aria-label="Example of Bowl's weekly view: sales against forecast, purchases and labor as a percent of sales, and a price-change alert.">
-        <p class="phone-label">This week</p>
-        <p class="phone-title">Day 4 of 6 · on pace</p>
-        <div class="metric">
-          <div class="metric-row"><span class="metric-name">Sales</span><span class="metric-val">$9,840 <small>/ $14,200 goal</small></span></div>
-          <div class="bar"><span style="width:69%"></span></div>
-        </div>
-        <div class="metric">
-          <div class="metric-row"><span class="metric-name">Purchases</span><span class="metric-val">27.4% <small>/ 30%</small></span></div>
-          <div class="bar"><span style="width:91%"></span></div>
-          <div class="metric-note">$1,160 left to buy this week</div>
-        </div>
-        <div class="metric">
-          <div class="metric-row"><span class="metric-name">Labor</span><span class="metric-val">29.1% <small>/ 28%</small></span></div>
-          <div class="bar"><span class="over" style="width:100%"></span></div>
-        </div>
-        <div class="alert">Chicken thighs up 12% at one supplier</div>
-        <p class="example">Example figures</p>
+    <div class="feat rv">
+      <div class="stack">
+        <span class="pill">Recipes</span>
+        <h3 style="font-size:clamp(30px,4vw,48px)">Every plate. Costed. Today.</h3>
+        <ul class="ticks">
+          <li>Prep recipes and plates, with steps and a photo</li>
+          <li>Food cost % against your menu price, in house and on delivery</li>
+          <li>Your chef can build recipes without seeing sales or payroll</li>
+        </ul>
+        <p class="hint">Missing recipes? Our chef can come in, weigh and cost them with you. Extra service, priced separately.</p>
       </div>
-    </section>
+      <div class="shot"><img class="phone tilt-r" src="screens/6-recipes.jpg" alt="Bowl recipes screen with plate cost and food cost percentage" width="603" height="1311" loading="lazy"></div>
+    </div>
+  </div>
+</section>
 
-    <section class="features" aria-labelledby="how">
-      <h2 id="how">What Bowl does</h2>
-      <div class="grid">
-        <article class="feature">
-          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
-          <h3>Snap an invoice</h3>
-          <p>Photo, PDF or a whole folder. Bowl reads the supplier, every line and the totals, and shows you anything it isn’t sure of.</p>
-        </article>
-        <article class="feature">
-          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
-          <h3>Every price, tracked</h3>
-          <p>See when a supplier raises a price, who sells the same item for less, and what each dish really costs to plate.</p>
-        </article>
-        <article class="feature">
-          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
-          <h3>A weekly budget</h3>
-          <p>Bowl forecasts your sales and turns your targets into a purchasing budget for the week, updated as the week happens.</p>
-        </article>
-        <article class="feature">
-          <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-          <h3>Labor in real time</h3>
-          <p>Connect Toast and see labor against sales as shifts happen, with a heads-up before someone hits overtime.</p>
-        </article>
+<!-- BUDGET -->
+<section class="dark" aria-labelledby="h-budget">
+  <div class="wrap">
+    <p class="eyebrow">Next week, planned</p>
+    <h2 id="h-budget" style="margin-top:12px">Plan the week. Bowl gives you the budget.</h2>
+    <div class="steps3">
+      <div class="step rv"><span class="k">1 · SALES FORECAST</span><span class="n">$25,000</span><p>From your recent weeks and the same week last year. Adjust it for holidays and events.</p></div>
+      <div class="step rv"><span class="k">2 · LABOR · 30%</span><span class="n">$7,500</span><p>Your schedule for next week: <b style="color:#fff">$8,100</b></p><p class="warn">Over by $600 before the week starts. Fix it now.</p></div>
+      <div class="step go rv"><span class="k">3 · PURCHASES · 30%</span><span class="n">$7,500</span>
+        <div class="sup"><span>Broadline distributor</span><b>$3,000</b></div>
+        <div class="sup"><span>Produce</span><b>$1,875</b></div>
+        <div class="sup"><span>Cash &amp; carry</span><b>$1,500</b></div>
+        <div class="sup"><span>Other</span><b>$1,125</b></div></div>
+    </div>
+    <p class="fine" style="color:var(--on-dark2)">Example. You set the targets. Slow Monday? The budgets shrink the same day.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section aria-labelledby="h-team">
+  <div class="wrap">
+    <p class="eyebrow">Your team</p>
+    <h2 id="h-team" style="margin-top:12px">One app for your whole team.</h2>
+    <div class="roles">
+      <div class="role o rv"><h3>Owner</h3><p>Everything: profit, bank, pay rates, settings.</p></div>
+      <div class="role m rv"><h3>Manager</h3><p>Sales, invoices, labor hours, schedule. No individual pay rates.</p></div>
+      <div class="role rv"><h3>Chef</h3><p>Invoices, recipes, plate cost. No sales, no payroll.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="band" id="pricing" aria-labelledby="h-price">
+  <div class="wrap">
+    <p class="eyebrow">Pricing</p>
+    <h2 id="h-price" style="margin-top:12px">About 1% of your food cost.</h2>
+    <p class="lead" style="margin-top:16px">One price per location, by annual sales. Pick yours.</p>
+    <div class="tiers" role="group" aria-label="Annual sales" id="tiers"></div>
+    <div class="calc">
+      <div>
+        <label for="rev">Your annual sales <output id="revOut" for="rev"></output></label>
+        <input type="range" id="rev">
+        <div class="two">
+          <div><label for="food">Food cost</label><div class="numin"><input id="food" type="number" min="0" max="100" value="30" inputmode="numeric"><span>%</span></div></div>
+          <div><label for="labor">Labor cost</label><div class="numin"><input id="labor" type="number" min="0" max="100" value="30" inputmode="numeric"><span>%</span></div></div>
+        </div>
       </div>
-    </section>
+      <div class="result" aria-live="polite">
+        <div class="big" id="rBig"></div>
+        <small id="rSmall"></small>
+      </div>
+    </div>
+    <p class="fine">Start with a 3-month package, then a 12-month plan. Setup by our team, your whole staff, and WhatsApp support included. Over $10M a year or 4+ locations: custom price.</p>
+  </div>
+</section>
 
-    <section class="closing">
-      <h2>Bowl is invite only for now</h2>
-      <p>We’re onboarding a small group of restaurants. Tell us about yours and we’ll be in touch.</p>
-      <a class="btn" href="mailto:support@get-bowl.com?subject=Bowl%20access%20request&amp;body=Restaurant%20name%3A%0ACity%3A%0APOS%20(e.g.%20Toast)%3A%0A">Request access</a>
-    </section>
-  </main>
+<!-- SETUP -->
+<section aria-labelledby="h-setup">
+  <div class="wrap">
+    <p class="eyebrow">Getting started</p>
+    <h2 id="h-setup" style="margin-top:12px">We set it all up. You just snap invoices.</h2>
+    <div class="setup">
+      <div class="card c1 rv"><span class="num">01</span><h3>We build your account</h3><p>Menu, recipes, suppliers, team, rent and bills. We connect your POS and set your targets.</p></div>
+      <div class="card c2 rv"><span class="num">02</span><h3>You snap invoices</h3><p>A photo at the back door, or forward the email. That’s your part.</p></div>
+      <div class="card c3 rv"><span class="num" aria-hidden="true">💬</span><h3>Questions? WhatsApp us.</h3><p>A real person from Bowl, direct to you. No hold music, no waiting for a callback.</p></div>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    <span>© 2026 Elis Group LLC dba Bowl</span>
-    <nav aria-label="Legal">
+<!-- FOUNDER -->
+<section class="band" aria-labelledby="h-founder">
+  <div class="wrap founder">
+    <div class="mono" aria-hidden="true">AE</div>
+    <div class="stack">
+      <h2 id="h-founder" class="sr">From the founder</h2>
+      <blockquote>“I’ve spent my career in kitchens, from Michelin-starred restaurants to opening places from zero. I built Bowl because I needed it in my own.”</blockquote>
+      <p class="hint">Asaf Eli, chef and founder</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="dark cta" aria-labelledby="h-cta">
+  <div class="wrap">
+    <h2 id="h-cta" style="font-size:clamp(44px,8vw,96px)">Stop guessing.</h2>
+    <p class="lead" style="margin:20px auto 0">Book a 20-minute demo. We’ll show you Bowl with a sample restaurant and set your start date.</p>
+    <div class="row"><a class="btn btn-primary" href="/contact">Book a demo</a><a class="btn btn-ghost" href="mailto:info@get-bowl.com">info@get-bowl.com</a></div>
+  </div>
+</section>
+</main>
+
+<!-- site:footer -->
+<footer>
+  <div class="wrap">
+    <div class="stack" style="gap:8px">
+      <a class="logo" href="/" style="font-size:24px"><i aria-hidden="true"></i>Bowl</a>
+      <span>© 2026 Elis Group LLC dba Bowl · 355 NE 194th Ln, Miami, FL 33179</span>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/contact">Contact</a>
       <a href="/privacy">Privacy Policy</a>
       <a href="/terms">Terms of Service</a>
-      <a href="mailto:support@get-bowl.com">support@get-bowl.com</a>
+      <a href="/accessibility">Accessibility</a>
     </nav>
-  </footer>
-</div>
+  </div>
+</footer>
+<!-- /site:footer -->
+
+<script>
+(function(){
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.documentElement.classList.add('js');
+function $(i){return document.getElementById(i)}
+function fitBox(box,inner,w){function f(){inner.style.transform='scale('+(box.clientWidth/w)+')'}f();addEventListener('resize',f)}
+function onView(el,fn){if(!('IntersectionObserver' in window)){fn();return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){io.disconnect();fn()}})},{threshold:.35});io.observe(el)}
+
+/* reveal: anything already on screen shows at once, and everything shows after 1.5s no matter what */
+var rv=[].slice.call(document.querySelectorAll('.rv'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});rv.forEach(function(el){io.observe(el)})}
+setTimeout(function(){rv.forEach(function(el){el.classList.add('in')})},1500);
+
+/* HERO: chips fall into the bowl, then sort into money in / money out */
+var sIn=$('stageIn');fitBox($('stage'),sIn,600);
+var IN=['Sales','Tips','Uber Eats payout','DoorDash payout'],OUT=['Food invoices','Payroll','Rent','Insurance','Card fees','Bank fees','Delivery fees','Utilities','Ads','Overtime'];
+var COL=['#B4472C','#3B6EA8','#7A5A3C','#6B5CA5','#976835','#5A564C','#BA5238','#2F7D8C','#9C3D54','#8C6B2F'];
+var all=OUT.map(function(n,i){return{n:n,inn:false,k:i}}).concat(IN.map(function(n,i){return{n:n,inn:true,k:i}}));
+function mv(c,x,y,r){c.style.transform='translate('+x+'px,'+y+'px) rotate('+r+'deg)'}
+function sorted(a){if(a.inn){mv(a.c,40,120+a.k*44,0)}else{mv(a.c,250+(a.k%2)*170,120+Math.floor(a.k/2)*44,0);a.c.style.background='#2A2822'}}
+all.forEach(function(a,i){var c=document.createElement('div');c.className='chip';c.textContent=a.n;c.style.background=a.inn?'#157A5E':COL[i%COL.length];sIn.appendChild(c);a.c=c});
+function endState(){all.forEach(sorted);$('sBowl').style.opacity=0;$('sCap1').style.opacity=0;$('sCap2').style.opacity=1;$('sIn').style.opacity=1;$('sOut').style.opacity=1;$('sLeft').style.opacity=1}
+if(RM){all.forEach(function(a){a.c.style.transition='none'});endState()}else{
+  var order=all.slice().sort(function(){return Math.random()-.5});
+  order.forEach(function(a){a.c.style.transition='none';mv(a.c,40+Math.random()*440,-60,Math.random()*60-30)});
+  order.forEach(function(a,i){setTimeout(function(){a.c.style.transition='';mv(a.c,110+Math.random()*290,300+Math.random()*80,Math.random()*60-30)},300+i*170)});
+  setTimeout(function(){$('sBowl').style.filter='drop-shadow(0 0 24px #157A5E)';$('sCap1').style.opacity=0;$('sCap2').style.opacity=1},3400);
+  setTimeout(function(){all.forEach(function(a){a.c.style.transition='transform 1s cubic-bezier(.2,.8,.2,1),background .8s'});endState()},4000);
+}
+
+/* DONUT: healthy vs 3 points over */
+var D=[['Food cost',30,33,'#157A5E'],['Labor',30,33,'#3B6EA8'],['Rent, CAM, property tax',10,10,'#8C6A4A'],['Utilities',4,4,'#2F8C9C'],['Card processing',3,3,'#B5853F'],['Cups, lids, bags',3,3,'#C9A27E'],['POS, accounting, licenses',3,3,'#6E6A60'],['Insurance',2,2,'#7B6BB5'],['Marketing',2,2,'#A8456A'],['Delivery apps',2,2,'#E07A5F'],['Repairs',1,1,'#9C978C'],['Net profit',10,4,'#7FC8A9']];
+var C=1571,NS='http://www.w3.org/2000/svg',segs=[],rows=[];
+D.forEach(function(d,i){var c=document.createElementNS(NS,'circle');['cx','cy'].forEach(function(a){c.setAttribute(a,330)});c.setAttribute('r',250);c.setAttribute('fill','none');c.setAttribute('stroke',d[3]);c.setAttribute('stroke-width',i==11?150:130);$('dG').appendChild(c);segs.push(c);
+var tr=document.createElement('tr');if(i==11)tr.className='profit';tr.innerHTML='<th scope="row"><span class="dot" aria-hidden="true" style="background:'+d[3]+'"></span>'+d[0]+'</th><td class="p"></td><td class="m"></td>';$('dRows').appendChild(tr);rows.push(tr)});
+function setD(over){var o=0;D.forEach(function(d,i){var v=over?d[2]:d[1];segs[i].setAttribute('stroke-dashoffset',-o*C/100);segs[i].setAttribute('stroke-dasharray',(v*C/100)+' '+C);o+=v;
+rows[i].querySelector('.p').textContent=v+'%';rows[i].querySelector('.m').textContent='$'+(v*1000).toLocaleString('en-US');rows[i].classList.toggle('hot',over&&d[1]!==d[2]&&i!==11)});
+$('dPct').textContent=over?'4%':'10%';$('dPct').style.color=over?'#F2A58E':'';$('dAmt').textContent=(over?'$4,000':'$10,000')+' profit a month';
+$('dNote').textContent=over?'Food and labor 3 points over each: profit falls from $10,000 to $4,000 a month. That’s $72,000 a year.':'Food and labor at 30% each leave about 10% profit.';
+$('tHealthy').setAttribute('aria-pressed',!over);$('tOver').setAttribute('aria-pressed',over)}
+segs.forEach(function(s){s.setAttribute('stroke-dasharray','0 '+C)});
+$('tHealthy').onclick=function(){setD(false)};$('tOver').onclick=function(){setD(true)};
+setD(false);
+
+/* CONNECT: balls fall into the bowl when scrolled into view */
+var bIn=$('bIn');fitBox($('bStage'),bIn,820);
+var N=[['Toast','#B55A2E'],['Uber Eats','#2E2E2E'],['DoorDash','#C2453A'],['Chase','#2E6BB0'],['Sysco','#3777B8'],['Restaurant Depot','#B4472C'],['Grubhub','#A6662C'],['Bank of America','#9C3D54'],['Payroll','#6B5CA5'],['Email invoices','#2B7F8E'],['Utilities','#8C6A4A'],['Card fees','#9B6B36']];
+var P=[[150,230],[262,238],[374,242],[486,240],[598,232],[200,130],[312,140],[424,142],[536,134],[256,40],[368,48],[480,42]];
+var balls=N.map(function(n,i){var b=document.createElement('div');b.className='ball';b.textContent=n[0];b.style.background=n[1];if(n[0].length>12)b.style.fontSize='13px';bIn.appendChild(b);return b});
+function place(i){balls[i].style.transform='translate('+P[i][0]+'px,'+P[i][1]+'px)'}
+if(RM){balls.forEach(function(b,i){b.style.transition='none';place(i)})}else{
+  balls.forEach(function(b,i){b.style.transition='none';b.style.transform='translate('+P[i][0]+'px,-160px)'});
+  onView($('bStage'),function(){balls.forEach(function(b,i){setTimeout(function(){b.style.transition='';place(i)},i*170)});setTimeout(function(){$('bBowl').style.filter='drop-shadow(0 0 30px #2FBF8F)'},N.length*170+900)});
+  setTimeout(function(){balls.forEach(function(b,i){if(b.style.transition==='none'){b.style.transition='';place(i)}})},6000);
+}
+
+/* TOMATO price ticker */
+onView($('tom'),function(){if(RM){$('tom').textContent='$2.00';$('tom').style.color='var(--coral)';return}var i=0,t=setInterval(function(){i++;$('tom').textContent='$'+(1+i*.05).toFixed(2);if(i>=20){clearInterval(t);$('tom').style.color='var(--coral)'}},70)});
+
+/* PRICING calculator */
+var T=[{p:199,lo:250000,hi:1000000,d:750000,n:'Up to $1M'},{p:249,lo:1000000,hi:3000000,d:1000000,n:'$1M – $3M'},{p:299,lo:3000000,hi:5000000,d:3000000,n:'$3M – $5M'},{p:349,lo:5000000,hi:10000000,d:5000000,n:'$5M – $10M'},{p:0,lo:10000000,hi:30000000,d:10000000,n:'$10M+'}],cur=1;
+var money=function(n){return '$'+Math.round(n).toLocaleString('en-US')},pct=function(n){return (n<.1?n.toFixed(2):n.toFixed(1))+'%'};
+var short=function(n){return n>=1e6?'$'+(Math.round(n/1e5)/10)+'M':'$'+Math.round(n/1e3)+'K'};
+T.forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='tier';b.id='tier'+i;b.innerHTML='<span>'+t.n+'</span>'+(t.p?'<b>$'+t.p+'</b><span>per month</span>':'<b style="font-size:26px">Let’s talk</b><span>custom price</span>');b.onclick=function(){pick(i)};$('tiers').appendChild(b)});
+function pick(i){cur=i;T.forEach(function(_,j){$('tier'+j).setAttribute('aria-pressed',j===i)});var r=$('rev');r.min=T[i].lo;r.max=T[i].hi;r.step=50000;r.value=T[i].d;calc()}
+function calc(){var t=T[cur],rev=+$('rev').value,f=Math.max(0,+$('food').value||0),l=Math.max(0,+$('labor').value||0),fc=rev*f/100,lc=rev*l/100;$('revOut').textContent=money(rev);
+if(!t.p){$('rBig').innerHTML='Over $10M a year? <em>Let’s build your price together.</em>';$('rSmall').textContent='You spend '+money(fc+lc)+' a year on food and labor.';return}
+var y=t.p*12;$('rBig').innerHTML='At '+short(rev)+' a year, Bowl is <em>'+money(y)+'</em>, '+(fc?pct(y/fc*100):'–')+' of your food cost.';
+$('rSmall').textContent='Or '+((fc+lc)?pct(y/(fc+lc)*100):'–')+' of food and labor together ('+money(fc+lc)+' a year). Save that much, and Bowl has paid for itself.'}
+['rev','food','labor'].forEach(function(i){$(i).addEventListener('input',calc)});pick(1);
+})();
+</script>
 </body>
 </html>
