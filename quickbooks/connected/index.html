@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- site:head -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#157A5E">
+<link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/Fraunces-600.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/fonts/Inter-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<!-- /site:head -->
+<title>QuickBooks and Bowl</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="The result of connecting QuickBooks to Bowl.">
+</head>
+<body>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Bowl home"><i aria-hidden="true"></i>Bowl</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#features">Features</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/contact">Contact</a>
+      <a class="btn btn-primary" href="/contact">Book a demo</a>
+    </nav>
+  </div>
+</header>
+<!-- /site:header -->
+
+<main id="main">
+<section>
+  <div class="wrap doc">
+    <p class="eyebrow">QuickBooks Online</p>
+    <h1 id="title" style="margin-top:12px;font-size:clamp(40px,7vw,72px)">QuickBooks and Bowl</h1>
+    <p class="lead" id="msg" style="margin-top:24px"></p>
+    <p id="more"></p>
+    <p><a href="/quickbooks/">How Bowl uses QuickBooks</a> · <a href="/contact">Contact</a></p>
+  </div>
+</section>
+</main>
+
+<!-- site:footer -->
+<footer>
+  <div class="wrap">
+    <div class="stack" style="gap:8px">
+      <a class="logo" href="/" style="font-size:24px"><i aria-hidden="true"></i>Bowl</a>
+      <span>© 2026 Elis Group LLC dba Bowl · 355 NE 194th Ln, Miami, FL 33179</span>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/contact">Contact</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/accessibility">Accessibility</a>
+    </nav>
+  </div>
+</footer>
+<!-- /site:footer -->
+<script>
+(function(){
+var q=new URLSearchParams(location.search),s=q.get('status'),co=(q.get('company')||'').slice(0,200),m=(q.get('message')||'').slice(0,500);
+var t=document.getElementById('title'),msg=document.getElementById('msg'),more=document.getElementById('more');
+if(s==='connected'){
+  t.textContent='QuickBooks is connected';
+  msg.textContent=co?co+' is now connected to Bowl, read only.':'The company is now connected to Bowl, read only.';
+  more.textContent='The restaurant\u2019s owner has been notified. You can close this window.';
+}else if(s==='cancelled'){
+  t.textContent='Nothing was connected';
+  msg.textContent='The connection was cancelled, so Bowl has no access to QuickBooks.';
+  more.textContent='To try again, ask the owner to send a new link from the Bowl app if this one no longer works.';
+}else{
+  t.textContent='Something went wrong';
+  msg.textContent=m||'QuickBooks couldn\u2019t be connected.';
+  more.textContent='Please try again, or ask the owner to send a new link from the Bowl app.';
+}
+document.title=t.textContent+' \u00b7 Bowl';
+})();
+</script>
+</body>
+</html>
