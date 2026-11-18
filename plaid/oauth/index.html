@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- site:head -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#157A5E">
+<link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/Fraunces-600.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/fonts/Inter-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<!-- /site:head -->
+<title>Finish connecting your bank</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Back from your bank: finish connecting it in Bowl.">
+</head>
+<body>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <span class="logo"><i aria-hidden="true"></i>Bowl</span>
+  </div>
+</header>
+<!-- /site:header -->
+<main id="main">
+<section>
+  <div class="wrap doc">
+    <p class="eyebrow">Bank connection</p>
+    <h1 style="margin-top:12px;font-size:clamp(36px,6vw,64px)">Finish in Bowl</h1>
+    <p class="lead" style="margin-top:24px">Your bank sent you back here. Open Bowl on this phone to finish connecting it.</p>
+    <p><a class="btn btn-primary" id="open" href="bowl://plaid-oauth">Open Bowl</a></p>
+    <p>Nothing is connected until Bowl says so. If Bowl doesn't open, open it yourself and go to Settings → Bank.</p>
+  </div>
+</section>
+</main>
+<!-- site:footer -->
+<footer>
+  <div class="wrap">
+    <div class="stack" style="gap:8px">
+      <span class="logo" style="font-size:24px"><i aria-hidden="true"></i>Bowl</span>
+      <span>© 2026 Eli's Group LLC dba Bowl · 355 NE 194th Ln, Miami, FL 33179</span>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/contact">Contact</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/accessibility">Accessibility</a>
+    </nav>
+  </div>
+</footer>
+<!-- /site:footer -->
+<script>
+(function(){
+// Plaid sends the person back with ?oauth_state_id=…; Bowl's bank window picks the session up again.
+// This page only shows when the Universal Link / App Link didn't open Bowl (an older app, or a browser).
+var q=location.search.slice(0,2000);
+var a=document.getElementById('open');
+a.href='bowl://plaid-oauth'+q;
+setTimeout(function(){ location.href=a.href; }, 300);
+})();
+</script>
+</body>
+</html>
