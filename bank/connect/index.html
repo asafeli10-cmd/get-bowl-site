@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- site:head -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#157A5E">
+<link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/Fraunces-600.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/fonts/Inter-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<!-- /site:head -->
+<title>Connect your bank</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Connect your restaurant's bank to Bowl, read only.">
+<meta name="referrer" content="no-referrer">
+</head>
+<body>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <span class="logo"><i aria-hidden="true"></i>Bowl</span>
+  </div>
+</header>
+<!-- /site:header -->
+<main id="main">
+<section>
+  <div class="wrap doc">
+    <p class="eyebrow">Bank connection</p>
+    <h1 style="margin-top:12px;font-size:clamp(36px,6vw,64px)">Connect your bank</h1>
+    <p class="lead" id="lead" style="margin-top:24px">Bowl reads your transactions to match payments to invoices. It can't move money.</p>
+    <p class="fine" id="msg" role="status" aria-live="polite"></p>
+    <p><button class="btn btn-primary" id="go" type="button" hidden>Continue to your bank</button></p>
+    <p><a href="bowl://bank-linked?status=cancelled" id="back">Back to Bowl</a></p>
+    <p class="fine">You sign in on your bank's own page, through Stripe. Bowl never sees your bank password. Bowl shows bank transactions from the day you connect.</p>
+  </div>
+</section>
+</main>
+<!-- site:footer -->
+<footer>
+  <div class="wrap">
+    <div class="stack" style="gap:8px">
+      <span class="logo" style="font-size:24px"><i aria-hidden="true"></i>Bowl</span>
+      <span>© 2026 Eli's Group LLC dba Bowl · 355 NE 194th Ln, Miami, FL 33179</span>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/contact">Contact</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/accessibility">Accessibility</a>
+    </nav>
+  </div>
+</footer>
+<!-- /site:footer -->
+<script>
+(function(){
+// Opened by the Bowl app (Settings → Bank → Connect your bank). The bank function puts the Financial
+// Connections session secret (s) and Stripe's publishable key (k) in the fragment, which never reaches
+// a server; it's kept for this tab only (a bank that signs in on its own site can send the person back
+// here) and cleared from the address bar. Back to the app: bowl://bank-linked, which ends the in-app
+// browser; the app then asks Bowl's server what was connected.
+var KEY='bowl.fc.v1', msg=document.getElementById('msg'), go=document.getElementById('go');
+var done=function(status){ try{ sessionStorage.removeItem(KEY); }catch(e){} location.href='bowl://bank-linked?status='+status; };
+var say=function(t){ msg.textContent=t; };
+var p=new URLSearchParams(location.hash.slice(1)), s=p.get('s'), k=p.get('k');
+try{
+  if(s&&k){ sessionStorage.setItem(KEY, JSON.stringify({s:s,k:k})); }
+  else { var saved=JSON.parse(sessionStorage.getItem(KEY)||'null'); if(saved){ s=saved.s; k=saved.k; } }
+}catch(e){}
+if(location.hash) history.replaceState(null,'',location.pathname);
+if(!s||!k||!/^fcsess_/.test(s)||!/^pk_(test|live)_/.test(k)){
+  say('Open this from the Bowl app: Settings → Bank → Connect your bank.');
+  return;
+}
+var stripe=null, busy=false;
+var run=function(){
+  if(busy) return;
+  if(!stripe){ say('Loading…'); return; }
+  busy=true; go.hidden=true; say('Opening your bank…');
+  stripe.collectFinancialConnectionsAccounts({clientSecret:s}).then(function(r){
+    busy=false;
+    if(r&&r.error){ say(r.error.message||'Your bank didn\'t finish connecting. Try again.'); go.hidden=false; return; }
+    var n=(r&&r.financialConnectionsSession&&r.financialConnectionsSession.accounts||[]).length;
+    if(n>0){ say('Connected. Going back to Bowl…'); done('success'); }
+    else { say('Nothing was connected.'); done('cancelled'); }
+  }, function(){ busy=false; say('Your bank didn\'t finish connecting. Try again.'); go.hidden=false; });
+};
+go.addEventListener('click', run);
+var js=document.createElement('script');
+js.src='https://js.stripe.com/v3/';
+js.onload=function(){ try{ stripe=window.Stripe(k); go.hidden=false; say(''); run(); }catch(e){ say('Couldn\'t load the bank connection. Try again.'); } };
+js.onerror=function(){ say('Couldn\'t load the bank connection. Check your connection and try again.'); };
+document.head.appendChild(js);
+})();
+</script>
+</body>
+</html>
